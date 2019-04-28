@@ -1,12 +1,17 @@
-<!DOCTYPE html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Админка</title>
-</head>
-<body>
-  
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Админка</title>
+    <link rel="stylesheet" href="/public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/css/style.css">
+    include ./other/scripts.pug
+  </head>
+  <body>
+    include ./other/nav.pug
+    <div class="container-fluid">
+      include ./products/list_products.pug
+    </div>
+  </body>
 </html>
