@@ -11,7 +11,7 @@ var tokenLeads = 'a2a43051c137da3cfc698f80b10176b0'; //токен Leads.su
 /* глабальные переменные */
 var SettingServer = {};
 SettingServer.Adedress = '127.0.0.1';
-SettingServer.Port = 8080;
+SettingServer.Port = 80;
 /* ---------- */
 
 app.use('/public', express.static('public'));
