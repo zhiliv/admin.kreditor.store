@@ -1,0 +1,38 @@
+{
+  "name": "admin.kreditor.store",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "async": "^2.6.2",
+    "cheerio": "^1.0.0-rc.3",
+    "cli-color": "^1.4.0",
+    "express": "^4.16.4",
+    "kladrapi-for-node": "0.0.2",
+    "moment": "^2.24.0",
+    "mysql2": "^1.6.5",
+    "node-geocoder": "^3.22.0",
+    "nodejs-yandex-geocoder": "^1.0.5",
+    "nodemon": "^1.18.11",
+    "q": "^1.5.1",
+    "socket.io": "^2.2.0",
+    "superagent": "^5.0.4",
+    "superagent-charset": "^1.2.0",
+    "underscore": "^1.9.1",
+    "xml-js": "^1.6.11"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhiliv/admin.kreditor.store.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhiliv/admin.kreditor.store/issues"
+  },
+  "homepage": "https://github.com/zhiliv/admin.kreditor.store#readme"
+}
