@@ -1,0 +1,221 @@
+body,
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
+.EnterAuth {
+  width: 70%;
+}
+
+.FormAuth {
+  border: 4px double gray;
+  border-radius: 10%;
+  width: 100%;
+  margin: 2%;
+}
+
+.Product_Data {
+  height: 100%;
+}
+
+.alert-Auth {
+  margin-top: 10%;
+}
+
+.Logo-Auth {
+  padding-top: 3%;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.ListProduct {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.nav-Main {
+  display: none;
+}
+
+.nav-Main .navbar-nav {
+  margin-left: 1%;
+}
+
+#Product_Data {
+  max-height: 100%;
+}
+
+#FullDesc {
+  height: 50%;
+}
+
+.BtnSave {
+  width: 100%;
+}
+
+#NameNewDocument {
+  width: 100%;
+}
+
+.AlertSuccessDesc,
+.AlertdangerDesc {
+  display: none;
+}
+
+#ListDocs,
+#ListMethod {
+  border-right: 2px solid white;
+}
+
+#ListAllRegionLeads,
+#ListRegionProductLeads,
+#ListAllCityLeads,
+#ListCityProductLeads {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding-top: 2%;
+  height: 30%;
+  border: 2px solid white;
+}
+
+.DataTab {
+  padding-top: 2%;
+  height: 100%;
+}
+
+.btn-LoadAllCityOfRegion {
+  display: none;
+  padding-top: 2%;
+}
+
+#LoadRegionAndCityOfLeads,
+#LoadAllRegion,
+#loadAllRegionsAndCity,
+.LoadProductOfCategory {
+  width: 100%;
+}
+
+.ListCategoryLeads {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.loadProductLeads {
+  display: none;
+}
+
+.blockImg {
+  padding-top: 3%
+}
+
+.blockDesck {
+  padding-top: 5%;
+}
+
+.DescriptionStatus {
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+
+.Description_Save {
+  padding-top: 1%;
+}
+
+.Information_label {
+  font-size: 13px;
+}
+
+.Information_blc {
+  border: 2px solid gray;
+  padding-bottom: 3%;
+  height: 100%;
+}
+
+.Information_ParentBlc {
+  margin: 1%;
+}
+
+.Information_statblc {
+  border: 2px solid gray;
+}
+
+.scroll-block {
+  height: 70px;
+  width: 340px;
+  overflow-y: scroll;
+}
+
+.scroll-block::-webkit-scrollbar-track {
+  border-radius: 4px;
+}
+
+.scroll-block::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scroll-block::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+}
+
+.scroll-block:hover::-webkit-scrollbar-thumb {
+  background: #d6d6d652;
+}
+
+#ListRegion_office {
+  width: 100%;
+}
+
+#ListOffices {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+#blockInfo {
+  background: #2e2e2e;
+  /* display: none; */
+}
+
+#SaveOffice,
+#OnMap {
+  margin-top: 22%;
+  width: 100%;
+}
+
+.AlertOffice {
+  display: none;
+}
+
+.map-container-9,
+.map-container-10,
+.map-container-11 {
+  overflow: hidden;
+  padding-bottom: 56.25%;
+  position: relative;
+  height: 0;
+}
+
+.map-container-9 iframe .map-container-10 iframe .map-container-11 iframe {
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+#SaveDescTypeProduct{
+  width: 100%;
+}
+
+#AddOrganization{
+  padding-left: 70%;
+  padding-right: 70%;
+  padding-bottom: 0%;
+  padding-top: 0%;
+}
+
+#banner_preview{
+  margin: 0px;
+  margin-top: 0.5%;
+}
