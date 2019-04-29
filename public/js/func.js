@@ -2,6 +2,28 @@
 var socket = io.connect($(location).attr('href'));
 var shotdescription, description;
 
+/* показать ошибку */
+var show_err = params => {
+	let option = {
+		type: 'warning',
+		delay: 7000,
+	};
+	$('#error').toast(option);
+	$('#err-text').text(params.err);
+	$('#error').toast('show');
+};
+
+/* показать ошибку */
+var show_sucess = params => {
+	let option = {
+		type: 'warning',
+		delay: 7000,
+	};
+	$('#sucess').toast(option);
+	$('#scs-text').text(params.msg);
+	$('#sucess').toast('show');
+};
+
 /* получение высоты навигационной панели */
 var get_height_menu = () => {
 	let height = $('#main_nav').height();
@@ -57,15 +79,15 @@ var get_product_all_data = async uid => {
 	let params = {uid: uid};
 	await get_product_data(params).then(res => {
 		data = res;
-  });
-  let list_docs;
-  await get_product_list_docs(params).then(res => {
-    list_docs = res;
-  })
-  let list_money;
-  await get_product_list_money(params).then(res => {
-    list_money = res;
-  })
+	});
+	let list_docs;
+	await get_product_list_docs(params).then(res => {
+		list_docs = res;
+	});
+	let list_money;
+	await get_product_list_money(params).then(res => {
+		list_money = res;
+	});
 	await load_data_porudct(data, list_docs, list_money);
 };
 
@@ -106,17 +128,6 @@ var get_product_list_money = params => {
 		}
 	});
 	return result.promise;
-};
-
-/* показать ошибку */
-var show_err = params => {
-	let option = {
-		type: 'warning',
-		delay: 7000,
-	};
-	$('.toast').toast(option);
-	$('#err-text').text(params.err);
-	$('.toast').toast('show');
 };
 
 /* заполнение формы продукта */
@@ -206,20 +217,20 @@ var load_data_porudct = (value, list_docs, list_money) => {
 	$('#profit').val(value.profit);
 
 	/* документы */
-  off_all_docs_and_get_money(); //отключение всех документов и способов полечнеия
-  $('.list-docs input').each((ind, row) => {
-		let name = $(row).val()
-		if(_.where(list_docs, {name: name}).length > 0){
-      $(row).prop('checked', true)
-    }
-  })
-  /* способы получения денег */
-  $('.list-money input').each((ind, row) => {
-		let name = $(row).val()
-		if(_.where(list_money, {name: name}).length > 0){
-      $(row).prop('checked', true)
-    }
-  })
+	off_all_docs_and_get_money(); //отключение всех документов и способов полечнеия
+	$('.list-docs input').each((ind, row) => {
+		let name = $(row).val();
+		if (_.where(list_docs, {name: name}).length > 0) {
+			$(row).prop('checked', true);
+		}
+	});
+	/* способы получения денег */
+	$('.list-money input').each((ind, row) => {
+		let name = $(row).val();
+		if (_.where(list_money, {name: name}).length > 0) {
+			$(row).prop('checked', true);
+		}
+	});
 };
 
 /* убрать все выделения документов и способов получения*/
@@ -248,14 +259,32 @@ var load_form_product = params => {
 			break;
 		case 'nav-product-docs':
 			$('.blc-docs').show();
-      break;
-      case 'nav-product-money':
+			break;
+		case 'nav-product-money':
 			$('.blc-money').show();
-      break;
+			break;
 	}
 };
 
 /* скрыть все формы продукта */
 var hide_all_form_ptroduct = () => {
 	$('.blc-description, .blc-information, .blc-docs, .blc-money').hide();
+};
+
+/* добавдение нового способа получения денег */
+var add_money_new = params => {
+	let reuslt = Q.defer();
+	socket.emit('add_money_new', params, res => {
+		reuslt.resolve(res);
+	});
+	return reuslt.promise;
+};
+
+/* добавдение нового документа*/
+var add_docs_new = params => {
+	let reuslt = Q.defer();
+	socket.emit('add_docs_new', params, res => {
+		reuslt.resolve(res);
+	});
+	return reuslt.promise;
 };

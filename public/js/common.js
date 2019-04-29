@@ -25,3 +25,43 @@ $('.nav-product a').on('click', element => {
 	let id = $(element.target).attr('id');
 	load_form_product(id);
 });
+
+$('#add-money-new').on('click', () => {
+  let name = $('#name-money-new').val();
+  if(name != ''){
+    let params = {name: name};
+    add_money_new(params).then(res => {
+      if(res.err != null){
+        show_err(res)
+      }
+      else{
+        let msg ={msg: 'Способ получения успешно добавлен, обновите страницу'}
+        show_sucess(msg)
+      }
+    })
+  }
+  else{
+    let params = {err: 'Поле пустое, введите данные'}
+    show_err(params)
+  }
+})
+
+$('#add-docs-new').on('click', () => {
+  let name = $('#name-docs-new').val();
+  if(name != ''){
+    let params = {name: name};
+    add_docs_new(params).then(res => {
+      if(res.err != null){
+        show_err(res)
+      }
+      else{
+        let msg ={msg: 'Способ получения успешно добавлен, обновите страницу'}
+        show_sucess(msg)
+      }
+    })
+  }
+  else{
+    let params = {err: 'Поле пустое, введите данные'}
+    show_err(params)
+  }
+})

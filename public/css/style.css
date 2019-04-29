@@ -46,10 +46,10 @@ body{
   font-size: 13px;
 }
 
-.blc-money-add{
+.blc-money-add, .blc-docs-add{
   border: 2px solid gray;
 }
 
-#add-money-new{
+#add-money-new, #add-docs-new{
   margin: 3%;
 }
