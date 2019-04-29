@@ -1,0 +1,257 @@
+<div class="row blc-information">
+  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 statistics">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+            <span>CR: <span id="cr"></span></span>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+            <span>AR: <span id="ar"></span></span>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+            <span>EPC: <span id="epc"></span></span>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+            <button type="button" class="btn btn-info btn-sm">Обновить</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+    <div class="row">
+
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+        <div class="row blc-inf">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+            <span class="desc-inf">Суммы кредита</span>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+            <label for="summ_min" class="text-primary desc-inf-min">Минимальная</label>
+            <input class="form-control form-control-sm" type="text" id="summ_min">
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+            <label for="summ_max" class="text-primary desc-inf-min">Максимальная</label>
+            <input class="form-control form-control-sm" type="text" id="summ_max">
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+        <div class="row blc-inf">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+            <span class="desc-inf">Беспроцентный период</span>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+            <label for="free_period" class="text-primary desc-inf-min">Период</label>
+            <input class="form-control form-control-sm" type="text" id="free_period">
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
+            <label for="type_free_period" class="text-primary desc-inf-min">Тип</label>
+            <select class="form-control form-control-sm" id="type_free_period">
+              each row_periods in all_periods
+                <option value="#{row_periods.name}">#{row_periods.name}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+        <div class="row blc-inf">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+            <span class="desc-inf">Интернет банк</span>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <label for="internet_bank" class="text-primary desc-inf-min">Тип</label>
+            <select class="form-control form-control-sm" id="internet_bank">
+              <option value="false">Нет</option>
+              <option value="true">Есть</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+        <div class="row blc-inf">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+            <span class="desc-inf">Возраст</span>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+            <label for="age_min" class="text-primary desc-inf-min">Максимальный</label>
+            <input class="form-control form-control-sm" type="text" id="age_min">
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+            <label for="age_max" class="text-primary desc-inf-min">Максимальный</label>
+            <input class="form-control form-control-sm" type="text" id="age_max">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+        <div class="row blc-inf">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+            <span class="desc-inf">Срок кредита</span>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+            <label for="srok_min" class="text-primary desc-inf-min">Минимальный</label>
+            <input class="form-control form-control-sm" type="text" id="srok_min">
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
+            <label for="type_srok_min" class="text-primary desc-inf-min">Тип</label>
+            <select class="form-control form-control-sm" id="type_srok_min">
+              each row_periods in all_periods
+                <option value="#{row_periods.name}">#{row_periods.name}</option>
+            </select>
+          </div>
+
+          <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+            <label for="srok_max" class="text-primary desc-inf-min">Максимальный</label>
+            <input class="form-control form-control-sm" type="text" id="srok_max">
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
+            <label for="type_srok_max" class="text-primary desc-inf-min">Тип</label>
+            <select class="form-control form-control-sm" id="type_srok_max">
+              each row_periods in all_periods
+                <option value="#{row_periods.name}">#{row_periods.name}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+        <div class="row blc-inf">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+            <span class="desc-inf">Процентная ставка</span>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+            <label for="percent_min" class="text-primary desc-inf-min">Минимальная</label>
+            <input class="form-control form-control-sm" type="text" id="percent_min">
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
+            <label for="type_percent_min" class="text-primary desc-inf-min">Тип</label>
+            <select class="form-control form-control-sm" id="type_percent_min">
+              each row_periods in all_periods
+                <option value="#{row_periods.name}">#{row_periods.name}</option>
+            </select>
+          </div>
+
+          <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+            <label for="percent_max" class="text-primary desc-inf-min">Максимальная</label>
+            <input class="form-control form-control-sm" type="text" id="percent_max">
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
+            <label for="type_percent_max" class="text-primary desc-inf-min">Тип</label>
+            <select class="form-control form-control-sm" id="type_percent_max">
+              each row_periods in all_periods
+                <option value="#{row_periods.name}">#{row_periods.name}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+        <div class="row blc-inf">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+            <span class="desc-inf">Время рассотрения</span>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+            <label for="time_for_consideration" class="text-primary desc-inf-min">Период</label>
+            <input class="form-control form-control-sm" type="text" id="time_for_consideration">
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
+            <label for="type_time_for_consideration" class="text-primary desc-inf-min">Тип</label>
+            <select class="form-control form-control-sm" id="type_time_for_consideration">
+              each row_periods in all_periods
+                <option value="#{row_periods.name}">#{row_periods.name}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+        <div class="row blc-inf">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+            <span class="desc-inf">Телефон</span>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <label for="phone" class="text-primary desc-inf-min">Номер</label>
+            <input class="form-control form-control-sm" type="text" id="phone">
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+        <div class="row blc-inf">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+            <span class="desc-inf">Сайт</span>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <label for="site" class="text-primary desc-inf-min">Адрес</label>
+            <input class="form-control form-control-sm" type="text" id="site">
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+        <div class="row blc-inf">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+            <span class="desc-inf">CPA</span>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <label for="cpa" class="text-primary desc-inf-min">Наименование</label>
+            <select class="form-control form-control-sm" id="cpa">
+              each row_cpa in all_cpa
+                <option value="#{row_cpa.name}">#{row_cpa.name}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      
+      <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-xl-2">
+        <div class="row blc-inf">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+            <span class="desc-inf">Профит</span>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <label for="profit" class="text-primary desc-inf-min">Значение</label>
+            <input class="form-control form-control-sm" type="text" id="profit">
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+        <div class="row blc-inf">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+            <span class="desc-inf">Организация</span>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <label for="organization" class="text-primary desc-inf-min">Наименование</label>
+            <select class="form-control form-control-sm" id="organization">
+              each row_organizatiom in all_organization
+                <option value="#{row_organizatiom.name}">#{row_organizatiom.name}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+
+  </div>
+</div>

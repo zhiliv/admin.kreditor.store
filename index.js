@@ -30,9 +30,29 @@ app.get('/', async (req, rs) => {
   await db.get_all_category().then(res => {
     all_category = res;
   })
+  let all_periods;
+  await db.get_all_periods().then(res => {
+    all_periods =res
+    })
+  let all_cpa;
+  await db.get_all_cpa().then(res => {
+    all_cpa = res;
+  })
+  let all_organization;
+  await db.get_all_organization().then(res => {
+    all_organization = res;
+  })
+  let all_docs;
+  await db.get_all_dosc().then(res => {
+    all_docs = res;
+  })
 	rs.render('index', {
     all_product: all_product,
-    all_category: all_category
+    all_category: all_category,
+    all_periods: all_periods,
+    all_cpa: all_cpa,
+    all_organization: all_organization,
+    all_docs: all_docs
 	});
 });
 

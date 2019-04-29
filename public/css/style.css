@@ -25,3 +25,23 @@ body{
   margin: 5%;
   width: 90%;
 }
+
+.statistics{
+  border: 2px solid gray;
+  padding: 0.5%;
+}
+
+.blc-inf{
+  border: 2px solid gray;
+  padding:3%;
+  margin-right: 0.3%;
+  margin-top: 2%;
+}
+
+.desc-inf{
+  font-size: 16px;
+}
+
+.desc-inf-min{
+  font-size: 13px;
+}
