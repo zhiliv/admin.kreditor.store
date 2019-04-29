@@ -62,7 +62,11 @@ var get_product_all_data = async uid => {
   await get_product_list_docs(params).then(res => {
     list_docs = res;
   })
-	await load_data_porudct(data, list_docs);
+  let list_money;
+  await get_product_list_money(params).then(res => {
+    list_money = res;
+  })
+	await load_data_porudct(data, list_docs, list_money);
 };
 
 /* получение даннызх о продукте */
@@ -91,6 +95,19 @@ var get_product_list_docs = params => {
 	return result.promise;
 };
 
+/* получение списка cпособов получения денег у продукта */
+var get_product_list_money = params => {
+	let result = Q.defer();
+	socket.emit('get_product_list_money', params, res => {
+		if (res.err != null) {
+			show_err(res);
+		} else {
+			result.resolve(res.data);
+		}
+	});
+	return result.promise;
+};
+
 /* показать ошибку */
 var show_err = params => {
 	let option = {
@@ -103,7 +120,7 @@ var show_err = params => {
 };
 
 /* заполнение формы продукта */
-var load_data_porudct = (value, list_docs) => {
+var load_data_porudct = (value, list_docs, list_money) => {
 	/* описание */
 	$('#id_offer_cpa').text(value.id_offer_cpa);
 	if (value.status == 'true') {
@@ -193,7 +210,13 @@ var load_data_porudct = (value, list_docs) => {
   $('.list-docs input').each((ind, row) => {
 		let name = $(row).val()
 		if(_.where(list_docs, {name: name}).length > 0){
-      console.log(name)
+      $(row).prop('checked', true)
+    }
+  })
+  /* способы получения денег */
+  $('.list-money input').each((ind, row) => {
+		let name = $(row).val()
+		if(_.where(list_money, {name: name}).length > 0){
       $(row).prop('checked', true)
     }
   })
@@ -225,11 +248,14 @@ var load_form_product = params => {
 			break;
 		case 'nav-product-docs':
 			$('.blc-docs').show();
-			break;
+      break;
+      case 'nav-product-money':
+			$('.blc-money').show();
+      break;
 	}
 };
 
 /* скрыть все формы продукта */
 var hide_all_form_ptroduct = () => {
-	$('.blc-description, .blc-information, .blc-docs').hide();
+	$('.blc-description, .blc-information, .blc-docs, .blc-money').hide();
 };

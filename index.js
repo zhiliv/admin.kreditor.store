@@ -46,13 +46,18 @@ app.get('/', async (req, rs) => {
   await db.get_all_dosc().then(res => {
     all_docs = res;
   })
+  let all_money;
+  await db.get_all_get_money().then(res => {
+    all_money = res;
+  })
 	rs.render('index', {
     all_product: all_product,
     all_category: all_category,
     all_periods: all_periods,
     all_cpa: all_cpa,
     all_organization: all_organization,
-    all_docs: all_docs
+    all_docs: all_docs,
+    all_money: all_money
 	});
 });
 

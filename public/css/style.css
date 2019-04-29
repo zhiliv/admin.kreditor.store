@@ -45,3 +45,11 @@ body{
 .desc-inf-min{
   font-size: 13px;
 }
+
+.blc-money-add{
+  border: 2px solid gray;
+}
+
+#add-money-new{
+  margin: 3%;
+}
