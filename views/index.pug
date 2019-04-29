@@ -6,12 +6,23 @@
     <title>Админка</title>
     <link rel="stylesheet" href="/public/css/bootstrap.min.css">
     <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="/public/js/jodit/build/jodit.min.css">
     include ./other/scripts.pug
   </head>
   <body>
     include ./other/nav.pug
     <div class="container-fluid">
-      include ./products/list_products.pug
+      <div class="row">
+        <div class='col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4'>
+          include ./products/list_products.pug
+        </div>
+        <div class='col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xl-8'>
+          include ./products/nav.pug
+          include ./products/description.pug
+          include ./products/btnSave.pug
+        </div>
+      </div>
     </div>
+    include ./other/error.pug
   </body>
 </html>

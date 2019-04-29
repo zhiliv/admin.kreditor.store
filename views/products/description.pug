@@ -1,0 +1,62 @@
+<div class="row blc-description">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+    <span>id оффера: <span id="id_offer_cpa"></span></span>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+        <div class="custom-control custom-switch">
+          <br>
+          <input type="checkbox" class="custom-control-input" id="status">
+          <label class="custom-control-label" for="status">Состояние</label>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+        <label for="name" class="text-primary">Наименование</label>
+        <input class="form-control form-control-sm" type="text" id="name">
+      </div>
+
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+          <label for="type_product" class="text-primary">Категория</label>
+          <select class="form-control form-control-sm" id="type_product">
+            each row_category in all_category
+              <option id_category="#{row_category.id_category}" value="#{row_category.name}">#{row_category.name}</option>
+          </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <label for="banner" class="text-primary">Имя файла</label>
+            <input class="form-control form-control-sm" type="text" id="banner">
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <br>
+            <a href="" target="_blank" id="btn-prewiev-banner">
+              <button type="button" class="btn btn-success btn-sm btn-prewiev">Предпросмотр</button>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
+        <label for="short_description" class="text-primary">Короткое описание</label>
+        <div id="short_description"></div>
+      </div>
+
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <label for="description" class="text-primary">Полное описание</label>
+        <div id="description"></div>
+        </div>
+
+    </div>
+  </div>
+</div>
+ 
+
+

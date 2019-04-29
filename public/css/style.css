@@ -1,3 +1,27 @@
 .text-name-list-product{
   font-size: 22px;
 }
+
+#list-product{
+  font-size: 16px;
+  height: 350;
+  overflow-y: scroll;
+}
+
+body{
+  overflow: hidden;
+}
+
+.typeproduct{
+  margin: 0;
+  font-size: 12px;
+}
+
+.btn-prewiev{
+  width: 100%;
+}
+
+#btn-save-product{
+  margin: 5%;
+  width: 90%;
+}
