@@ -3,8 +3,8 @@
     each row_money in all_money
       <div class="custom-control custom-switch">
         <br>
-        <input type="checkbox" value="#{row_money.name}" class="custom-control-input" id="status">
-        <label class="custom-control-label" for="status">#{row_money.name}</label>
+        <input type="checkbox" value="#{row_money.name}" class="custom-control-input" id="money_#{row_money.id}">
+        <label class="custom-control-label" for="money_#{row_money.id}">#{row_money.name}</label>
       </div>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">

@@ -56,7 +56,14 @@ var page = () => {
 		set_height_list_product();
 		wysing();
 		sel_product_on_load();
+		set_height_list_geo();
 	}
+};
+
+/* установка высоты в блоках гео */
+var set_height_list_geo = () => {
+	let height = (get_height_body() - get_height_menu()) / 2.6;
+	$('.list-geo').height(height);
 };
 
 /* формирование wysing */
@@ -76,7 +83,7 @@ var disable_active_item_nav = () => {
 /* получение данных о выбраннго продукте */
 var get_product_all_data = async uid => {
 	let data;
-	let params = {uid: uid};
+	let params = { uid: uid };
 	await get_product_data(params).then(res => {
 		data = res;
 	});
@@ -88,7 +95,11 @@ var get_product_all_data = async uid => {
 	await get_product_list_money(params).then(res => {
 		list_money = res;
 	});
-	await load_data_porudct(data, list_docs, list_money);
+	let regions;
+	await get_regions(params).then(res => {
+		regions = res;
+	});
+	await load_data_porudct(data, list_docs, list_money, regions);
 };
 
 /* получение даннызх о продукте */
@@ -131,7 +142,7 @@ var get_product_list_money = params => {
 };
 
 /* заполнение формы продукта */
-var load_data_porudct = (value, list_docs, list_money) => {
+var load_data_porudct = (value, list_docs, list_money, regions) => {
 	/* описание */
 	$('#id_offer_cpa').text(value.id_offer_cpa);
 	$('#uid').text(value.uid);
@@ -215,24 +226,56 @@ var load_data_porudct = (value, list_docs, list_money) => {
 			$(row).prop('selected', true);
 		}
 	});
-  $('#profit').val(value.profit);
-  $('#url_offer').val(value.url_offer)
+	$('#profit').val(value.profit);
+	$('#url_offer').val(value.url_offer);
 
 	/* документы */
 	off_all_docs_and_get_money(); //отключение всех документов и способов полечнеия
 	$('.list-docs input').each((ind, row) => {
 		let name = $(row).val();
-		if (_.where(list_docs, {name: name}).length > 0) {
+		if (_.where(list_docs, { name: name }).length > 0) {
 			$(row).prop('checked', true);
 		}
 	});
 	/* способы получения денег */
 	$('.list-money input').each((ind, row) => {
 		let name = $(row).val();
-		if (_.where(list_money, {name: name}).length > 0) {
+		if (_.where(list_money, { name: name }).length > 0) {
 			$(row).prop('checked', true);
 		}
 	});
+
+	/* гео */
+	fill_list_regions(regions).then(() => {
+		on_click_regions();
+	});
+};
+
+/* заполнение списков регионов */
+var fill_list_regions = async data => {
+  /* заполнение  */
+
+	let result = Q.defer();
+	$('#region_all, #region_product').empty();
+	await async.eachOfSeries(data.all, async (row, ind) => {
+		$('<li>', {
+			class: 'list-group-item list-group-item-action',
+			text: row.name,
+			rid: row.rid,
+		}).appendTo('#region_all');
+	});
+
+	await async.eachOfSeries(data.product, async (row, ind) => {
+		$('<li>', {
+			class: 'list-group-item list-group-item-action',
+			text: row.name,
+			rid: row.rid,
+		}).appendTo('#region_product');
+		if (ind == data.product.length - 1) {
+			result.resolve();
+		}
+	});
+	return result.promise;
 };
 
 /* убрать все выделения документов и способов получения*/
@@ -265,12 +308,15 @@ var load_form_product = params => {
 		case 'nav-product-money':
 			$('.blc-money').show();
 			break;
+		case 'nav-product-geo':
+			$('.blc-geo').show();
+			break;
 	}
 };
 
 /* скрыть все формы продукта */
 var hide_all_form_ptroduct = () => {
-	$('.blc-description, .blc-information, .blc-docs, .blc-money').hide();
+	$('.blc-description, .blc-information, .blc-docs, .blc-money, .blc-geo').hide();
 };
 
 /* добавдение нового способа получения денег */
@@ -293,65 +339,109 @@ var add_docs_new = params => {
 
 /* сохранение данных продукта */
 var save_data_product = async () => {
-  let params;
-  let err;
+	let params;
+	let err;
 	await get_data_product_form_form().then(res => {
-    params = res;
-		console.log("TCL: save_data_product -> params", params)
-  });
-  await update_data_product(params).then(res => {
-		err = res.errf;
-  })
-  await update_docs_products(params)
+		params = res;
+	});
+	await update_data_product(params).then(res => {
+		err = res.err;
+	});
+	await update_docs_products(params).then(res => {
+		err = res.err;
+	});
+	await update_money_products(params).then(res => {
+		err = res.err;
+	});
+	if (err == null) {
+		let msg = { msg: 'Данные о продукте успешно обновлены' };
+		show_sucess(msg);
+	} else {
+		let msg = { err: err };
+		show_err(msg);
+	}
+};
+
+/* полная обновление списка документов */
+var update_money_products = async params => {
+	let result = Q.defer();
+	/* обновление списка документов у продукта */
+	var update_list_money_product = param => {
+		let result = Q.defer();
+		socket.emit('update_list_money_product', param, res => {
+			result.resolve(res);
+		});
+		return result.promise;
+	};
+
+	let list_money;
+	await get_checked_money_product().then(res => {
+		list_money = { data: res, uid: params.uid };
+	});
+	await update_list_money_product(list_money).then(res => {
+		result.resolve(res);
+	});
+	return result.promise;
+};
+
+/* получение списка активных документов у продукта */
+var get_checked_money_product = () => {
+	let arr = [];
+	let result = Q.defer();
+	$('.list-money input:checked').each((ind, row) => {
+		let name = $(row).val();
+		arr.push(name);
+		if (ind == $('.list-money input:checked').length - 1) {
+			result.resolve(arr);
+		}
+	});
+	return result.promise;
 };
 
 /* полная обновление списка документов */
 var update_docs_products = async params => {
-	console.log("TCL: params", params)
-  let result = Q.defer()
-/* обновление списка документов у продукта */
-  var update_list_docs_product = param => {
-    let result = Q.defer()
-    socket.emit('update_list_docs_product', param, res => {
-      result.resolve(res)
-    })
-    return result.promise;
-  }
+	let result = Q.defer();
+	/* обновление списка документов у продукта */
+	var update_list_docs_product = param => {
+		let result = Q.defer();
+		socket.emit('update_list_docs_product', param, res => {
+			result.resolve(res);
+		});
+		return result.promise;
+	};
 
-  let list_docs;
-  await get_checked_docs_product().then(res => {
-		list_docs = {data:res, uid:params.uid};
-  })
-  await update_list_docs_product(list_docs).then(res => {
-    
-  })
-
-}
-
-
+	let list_docs;
+	await get_checked_docs_product().then(res => {
+		list_docs = { data: res, uid: params.uid };
+	});
+	await update_list_docs_product(list_docs).then(res => {
+		result.resolve(res);
+	});
+	return result.promise;
+};
 
 /* получение списка активных документов у продукта */
 var get_checked_docs_product = () => {
-  let arr = [];
-  let result = Q.defer();
-  $('.list-docs input:checked').each((ind, row) => {
+	let arr = [];
+	let result = Q.defer();
+	$('.list-docs input:checked').each((ind, row) => {
 		let name = $(row).val();
-    arr.push(name)
-    if(ind == $('.list-docs input:checked').length-1){
-      result.resolve(arr)
-    }
-  })
-  return result.promise;
-}
+		arr.push(name);
+		if (ind == $('.list-docs input:checked').length - 1) {
+			result.resolve(arr);
+		}
+	});
+	return result.promise;
+};
 
 /* обнолвение данных продукта */
 var update_data_product = params => {
-  let result = Q.defer()
-  socket.emit('update_data_product', params, res => {
-    result.resolve(res)
-  })
-  return result.promise;
-}
+	let result = Q.defer();
+	socket.emit('update_data_product', params, res => {
+		result.resolve(res);
+	});
+	return result.promise;
+};
 
 /* доабвление новой организации */
 var add_organization = params => {
@@ -360,13 +450,13 @@ var add_organization = params => {
 			if (res.err != null) {
 				show_err(res);
 			} else {
-				let msg = {msg: 'Организация успешно добалвена, обновите страницу'};
-        show_sucess(msg);
-        $('#close-form-add-organization').click()
+				let msg = { msg: 'Организация успешно добалвена, обновите страницу' };
+				show_sucess(msg);
+				$('#close-form-add-organization').click();
 			}
 		});
 	} else {
-		let params = {err: 'Поле пустое, введите данные'};
+		let params = { err: 'Поле пустое, введите данные' };
 		show_err(params);
 	}
 };
@@ -375,46 +465,87 @@ var add_organization = params => {
 var get_data_product_form_form = async () => {
 	let result = Q.defer();
 	let uid = $('#uid').text();
-	uid = {uid: uid};
+	uid = { uid: uid };
 	let data;
 	await get_product_data(uid).then(res => {
 		data = res;
+	});
+	let params = {
+		uid: data.uid,
+		name: $('#name').val(),
+		id_category: data.id_category,
+		id_offer_cpa: data.id_offer_cpa,
+		description: desc.value,
+		short_description: shortdesc.value,
+		type_product: $('#type_product option:selected').text(),
+		banner: $('#banner').val(),
+		summ_min: $('#summ_min').val(),
+		summ_max: $('#summ_max').val(),
+		free_period: $('#free_period').val(),
+		type_free_period: $('#type_free_period option:selected').text(),
+		status: String($('#status').is(':checked')),
+		srok_min: $('#srok_min').val(),
+		srok_max: $('#srok_max').val(),
+		type_srok_max: $('#type_srok_max option:selected').text(),
+		time_for_consideration: $('#time_for_consideration').val(),
+		type_time_for_consideration: $('#type_time_for_consideration option:selected').text(),
+		type_srok_min: $('#type_srok_min option:selected').text(),
+		internet_bank: $('#internet_bank option:selected').val(),
+		age_min: $('#age_min').val(),
+		age_max: $('#age_max').val(),
+		percent_min: $('#percent_min').val(),
+		type_percent_min: $('#type_percent_min option:selected').text(),
+		percent_max: $('#percent_max').val(),
+		type_percent_max: $('#type_percent_max option:selected').text(),
+		cpa: $('#cpa option:selected').text(),
+		url_offer: $('#url_offer').val(),
+		profit: $('#profit').val(),
+		type_profit: data.type_profit,
+		phone: $('#phone').val(),
+		site: $('#site').val(),
+		organization: $('#organization option:selected').text(),
+	};
+	result.resolve(params);
+	return result.promise;
+};
+
+/* получение регионов  */
+var get_regions = params => {
+	let result = Q.defer();
+	socket.emit('get_regions', params, res => {
+		result.resolve(res);
+	});
+	return result.promise;
+};
+
+/* обработка клика по региону */
+var on_click_regions = () => {
+	$('#region_all li').on('dblclick', element => {
+    let rid = $(element.target).attr('rid');
+    let uid = get_uid_product();
+    let params = {uid: uid, rid: rid};
+    add_region_product(params)
+	});
+};
+
+/* добавление реогиона продукту */
+var add_region_product = params => {
+  socket.emit('add_region_product', params, res => {
+    udate_list_region_product(params)
+  })
+}
+
+/* обновить список регионов */
+var udate_list_region_product = async params => {
+  let regions;
+  await get_regions(params).then(res => {
+		regions = res;
   });
-  let params = {
-  uid: data.uid,
-	name: $('#name').val(),
-	id_category: data.id_category,
-	id_offer_cpa: data.id_offer_cpa,
-	description: desc.value,
-	short_description: shortdesc.value,
-	type_product: $('#type_product option:selected').text(),
-	banner: $('#banner').val(),
-	summ_min: $('#summ_min').val(),
-	summ_max: $('#summ_max').val(),
-	free_period: $('#free_period').val(),
-	type_free_period: $('#type_free_period option:selected').text(),
-	status: String($('#status').is(':checked')),
-	srok_min: $('#srok_min').val(),
-	srok_max: $('#srok_max').val(),
-	type_srok_max: $('#type_srok_max option:selected').text(),
-	time_for_consideration: $('#time_for_consideration').val(),
-	type_time_for_consideration: $('#type_time_for_consideration option:selected').text(),
-	type_srok_min: $('#type_srok_min option:selected').text(),
-	internet_bank: $('#internet_bank option:selected').val(),
-	age_min: $('#age_min').val(),
-	age_max: $('#age_max').val(),
-	percent_min: $('#percent_min').val(),
-	type_percent_min: $('#type_percent_min option:selected').text(),
-	percent_max: $('#percent_max').val(),
-	type_percent_max: $('#type_percent_max option:selected').text(),
-  cpa: $('#cpa option:selected').text(),
-  url_offer: $('#url_offer').val(),
-  profit: $('#profit').val(),
-  type_profit: data.type_profit,
-  phone: $('#phone').val(),
-  site: $('#site').val(),
-  organization: $('#organization option:selected').text(),
-  }
-  result.resolve(params)
-  return result.promise;
+  await fill_list_regions(regions).then(() => {})
+}
+
+/* получение uid продукта */
+var get_uid_product = () => {
+	let uid = $('#list-product li.active').attr('uid');
+	return uid;
 };

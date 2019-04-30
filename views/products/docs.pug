@@ -3,8 +3,8 @@
     each row_docs in all_docs
       <div class="custom-control custom-switch">
         <br>
-        <input type="checkbox" value="#{row_docs.name}" class="custom-control-input" id="status">
-        <label class="custom-control-label" for="status">#{row_docs.name}</label>
+        <input type="checkbox" value="#{row_docs.name}" class="custom-control-input" id="doc_#{row_docs.id}">
+        <label class="custom-control-label" for="doc_#{row_docs.id}">#{row_docs.name}</label>
       </div>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">

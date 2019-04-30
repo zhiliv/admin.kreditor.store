@@ -24,7 +24,7 @@ $('.nav-product a').on('click', element => {
 	$(element.target).addClass('active');
 	let id = $(element.target).attr('id');
 	load_form_product(id);
-	if (id == 'GEO' || id == 'offices') {
+	if (id == 'nav-product-geo' || id == 'nav-product-offices') {
 		$('#btn-save-product').hide();
 	} else {
 		$('#btn-save-product').show();
@@ -69,10 +69,12 @@ $('#add-docs-new').on('click', () => {
 	}
 });
 
+/* сохранение данных о продукте */
 $('#btn-save-product').on('click', () => {
   save_data_product()
 })
 
+/* добавдение новой организации */
 $('#add-organization').on('click', () => {
   let name = $('#name-organization-new').val();
   let params = {name: name};

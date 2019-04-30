@@ -21,7 +21,7 @@ body{
   width: 100%;
 }
 
-#btn-save-product{
+#btn-save-product, .btn-geo{
   margin: 5%;
   width: 90%;
 }
@@ -52,4 +52,23 @@ body{
 
 #add-money-new, #add-docs-new{
   margin: 3%;
+}
+
+.blc-list-geo{
+  padding: 2%;
+}
+
+.list-geo{
+  overflow-x: hidden;
+  overflow-y: scroll;
+  font-size: 14px;
+  border: 2px solid gray;
+}
+
+.list-geo li.active{
+  background: rgb(123, 129, 185)
+}
+
+.list-product{
+  border: 2px solid gray;
 }
