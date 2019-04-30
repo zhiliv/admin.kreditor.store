@@ -1,6 +1,6 @@
 'use strict';
 var socket = io.connect($(location).attr('href'));
-var shotdescription, description;
+var shortdesc, desc;
 
 /* показать ошибку */
 var show_err = params => {
@@ -62,8 +62,8 @@ var page = () => {
 /* формирование wysing */
 var wysing = () => {
 	let height = get_height_body() / 2.5;
-	shotdescription = new Jodit('#short_description');
-	description = new Jodit('#description', {
+	shortdesc = new Jodit('#short_description');
+	desc = new Jodit('#description', {
 		height: height,
 	});
 };
@@ -134,6 +134,7 @@ var get_product_list_money = params => {
 var load_data_porudct = (value, list_docs, list_money) => {
 	/* описание */
 	$('#id_offer_cpa').text(value.id_offer_cpa);
+	$('#uid').text(value.uid);
 	if (value.status == 'true') {
 		$('#status').prop('checked', true);
 	} else {
@@ -150,8 +151,8 @@ var load_data_porudct = (value, list_docs, list_money) => {
 			$(row).prop('selected', true);
 		}
 	});
-	shotdescription.value = value.short_description;
-	description.value = value.description;
+	shortdesc.value = value.short_description;
+	desc.value = value.description;
 
 	/* информация */
 	$('#cr').text(value.cr + '%');
@@ -214,7 +215,8 @@ var load_data_porudct = (value, list_docs, list_money) => {
 			$(row).prop('selected', true);
 		}
 	});
-	$('#profit').val(value.profit);
+  $('#profit').val(value.profit);
+  $('#url_offer').val(value.url_offer)
 
 	/* документы */
 	off_all_docs_and_get_money(); //отключение всех документов и способов полечнеия
@@ -287,4 +289,132 @@ var add_docs_new = params => {
 		reuslt.resolve(res);
 	});
 	return reuslt.promise;
+};
+
+/* сохранение данных продукта */
+var save_data_product = async () => {
+  let params;
+  let err;
+	await get_data_product_form_form().then(res => {
+    params = res;
+		console.log("TCL: save_data_product -> params", params)
+  });
+  await update_data_product(params).then(res => {
+		err = res.errf;
+  })
+  await update_docs_products(params)
+};
+
+/* полная обновление списка документов */
+var update_docs_products = async params => {
+	console.log("TCL: params", params)
+  let result = Q.defer()
+/* обновление списка документов у продукта */
+  var update_list_docs_product = param => {
+    let result = Q.defer()
+    socket.emit('update_list_docs_product', param, res => {
+      result.resolve(res)
+    })
+    return result.promise;
+  }
+
+  let list_docs;
+  await get_checked_docs_product().then(res => {
+		list_docs = {data:res, uid:params.uid};
+  })
+  await update_list_docs_product(list_docs).then(res => {
+    
+  })
+
+}
+
+
+
+/* получение списка активных документов у продукта */
+var get_checked_docs_product = () => {
+  let arr = [];
+  let result = Q.defer();
+  $('.list-docs input:checked').each((ind, row) => {
+		let name = $(row).val();
+    arr.push(name)
+    if(ind == $('.list-docs input:checked').length-1){
+      result.resolve(arr)
+    }
+  })
+  return result.promise;
+}
+
+/* обнолвение данных продукта */
+var update_data_product = params => {
+  let result = Q.defer()
+  socket.emit('update_data_product', params, res => {
+    result.resolve(res)
+  })
+  return result.promise;
+}
+
+/* доабвление новой организации */
+var add_organization = params => {
+	if (add_organization.name != '') {
+		socket.emit('add_organization', params, res => {
+			if (res.err != null) {
+				show_err(res);
+			} else {
+				let msg = {msg: 'Организация успешно добалвена, обновите страницу'};
+        show_sucess(msg);
+        $('#close-form-add-organization').click()
+			}
+		});
+	} else {
+		let params = {err: 'Поле пустое, введите данные'};
+		show_err(params);
+	}
+};
+
+/* получение данных проудкта с формы */
+var get_data_product_form_form = async () => {
+	let result = Q.defer();
+	let uid = $('#uid').text();
+	uid = {uid: uid};
+	let data;
+	await get_product_data(uid).then(res => {
+		data = res;
+  });
+  let params = {
+  uid: data.uid,
+	name: $('#name').val(),
+	id_category: data.id_category,
+	id_offer_cpa: data.id_offer_cpa,
+	description: desc.value,
+	short_description: shortdesc.value,
+	type_product: $('#type_product option:selected').text(),
+	banner: $('#banner').val(),
+	summ_min: $('#summ_min').val(),
+	summ_max: $('#summ_max').val(),
+	free_period: $('#free_period').val(),
+	type_free_period: $('#type_free_period option:selected').text(),
+	status: String($('#status').is(':checked')),
+	srok_min: $('#srok_min').val(),
+	srok_max: $('#srok_max').val(),
+	type_srok_max: $('#type_srok_max option:selected').text(),
+	time_for_consideration: $('#time_for_consideration').val(),
+	type_time_for_consideration: $('#type_time_for_consideration option:selected').text(),
+	type_srok_min: $('#type_srok_min option:selected').text(),
+	internet_bank: $('#internet_bank option:selected').val(),
+	age_min: $('#age_min').val(),
+	age_max: $('#age_max').val(),
+	percent_min: $('#percent_min').val(),
+	type_percent_min: $('#type_percent_min option:selected').text(),
+	percent_max: $('#percent_max').val(),
+	type_percent_max: $('#type_percent_max option:selected').text(),
+  cpa: $('#cpa option:selected').text(),
+  url_offer: $('#url_offer').val(),
+  profit: $('#profit').val(),
+  type_profit: data.type_profit,
+  phone: $('#phone').val(),
+  site: $('#site').val(),
+  organization: $('#organization option:selected').text(),
+  }
+  result.resolve(params)
+  return result.promise;
 };

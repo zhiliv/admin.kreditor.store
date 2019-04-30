@@ -239,19 +239,33 @@
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
             <span class="desc-inf">Организация</span>
           </div>
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+          <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xl-10">
             <label for="organization" class="text-primary desc-inf-min">Наименование</label>
             <select class="form-control form-control-sm" id="organization">
               each row_organizatiom in all_organization
                 <option value="#{row_organizatiom.name}">#{row_organizatiom.name}</option>
             </select>
           </div>
+          <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-xl-2">
+            <br>
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#form-add-organization">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+        <div class="row blc-inf">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+            <span class="desc-inf">Ссылка на оффер/span>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <label for="url_offer" class="text-primary desc-inf-min">Значение</label>
+            <input class="form-control form-control-sm" type="text" id="url_offer">
+          </div>
         </div>
       </div>
 
     </div>
-
-
 
   </div>
 </div>
