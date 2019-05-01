@@ -249,6 +249,22 @@ var load_data_porudct = (value, list_docs, list_money, regions) => {
 	fill_list_regions(regions).then(() => {
 		on_click_regions();
 	});
+	if (value.cpa == 'Leads') {
+		$('#load_geo_cpa').attr('id_offer_cpa', value.id_offer_cpa);
+		$('#load_geo_cpa').attr('uid', value.uid);
+		$('#load_geo_cpa').attr('type_product', value.type_product);
+	} else {
+		$('#load_geo_cpa').prop('disabled', true);
+	}
+};
+
+/* загрузкаа гео продукта с leads */
+var load_geo_cpa_leads = params => {
+	let result = Q.defer();
+	socket.emit('load_geo_cpa_leads', params, res => {
+		result.resolve(res);
+	});
+	return result.promise;
 };
 
 /* заполнение списков регионов */
@@ -563,7 +579,7 @@ var on_click_city = () => {
 		let cid = $(element.target).attr('cid');
 		let uid = get_uid_product();
 		let params = { uid: uid, rid: rid, cid: cid };
-		disable_city_product(params)
+		disable_city_product(params);
 	});
 };
 

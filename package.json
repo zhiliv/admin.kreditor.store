@@ -14,11 +14,11 @@
     "mysql2": "^1.6.5",
     "node-geocoder": "^3.22.0",
     "nodejs-yandex-geocoder": "^1.0.5",
-    "nodemon": "^1.18.11",
+    "nodemon": "^1.19.0",
     "pug": "^2.0.3",
     "q": "^1.5.1",
     "socket.io": "^2.2.0",
-    "superagent": "^5.0.4",
+    "superagent": "^5.0.5",
     "superagent-charset": "^1.2.0",
     "underscore": "^1.9.1",
     "xml-js": "^1.6.11"

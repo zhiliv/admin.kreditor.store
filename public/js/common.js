@@ -35,17 +35,17 @@ $('.nav-product a').on('click', element => {
 $('#add-money-new').on('click', () => {
 	let name = $('#name-money-new').val();
 	if (name != '') {
-		let params = {name: name};
+		let params = { name: name };
 		add_money_new(params).then(res => {
 			if (res.err != null) {
 				show_err(res);
 			} else {
-				let msg = {msg: 'Способ получения успешно добавлен, обновите страницу'};
+				let msg = { msg: 'Способ получения успешно добавлен, обновите страницу' };
 				show_sucess(msg);
 			}
 		});
 	} else {
-		let params = {err: 'Поле пустое, введите данные'};
+		let params = { err: 'Поле пустое, введите данные' };
 		show_err(params);
 	}
 });
@@ -54,29 +54,38 @@ $('#add-money-new').on('click', () => {
 $('#add-docs-new').on('click', () => {
 	let name = $('#name-docs-new').val();
 	if (name != '') {
-		let params = {name: name};
+		let params = { name: name };
 		add_docs_new(params).then(res => {
 			if (res.err != null) {
 				show_err(res);
 			} else {
-				let msg = {msg: 'Способ получения успешно добавлен, обновите страницу'};
+				let msg = { msg: 'Способ получения успешно добавлен, обновите страницу' };
 				show_sucess(msg);
 			}
 		});
 	} else {
-		let params = {err: 'Поле пустое, введите данные'};
+		let params = { err: 'Поле пустое, введите данные' };
 		show_err(params);
 	}
 });
 
 /* сохранение данных о продукте */
 $('#btn-save-product').on('click', () => {
-  save_data_product()
-})
+	save_data_product();
+});
 
 /* добавдение новой организации */
 $('#add-organization').on('click', () => {
-  let name = $('#name-organization-new').val();
-  let params = {name: name};
-  add_organization(params)
-})
+	let name = $('#name-organization-new').val();
+	let params = { name: name };
+	add_organization(params);
+});
+
+/* загрузка гео с cpa */
+$('#load_geo_cpa').on('click', () => {
+	let uid = $('#load_geo_cpa').attr('uid');
+	let id_offer_cpa = $('#load_geo_cpa').attr('id_offer_cpa');
+  let type_product = $('#load_geo_cpa').attr('type_product');
+  let params ={uid: uid, id_offer_cpa: id_offer_cpa, type_product:type_product }
+	load_geo_cpa_leads(params).then(() => {});
+});
