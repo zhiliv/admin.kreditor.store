@@ -253,8 +253,6 @@ var load_data_porudct = (value, list_docs, list_money, regions) => {
 
 /* заполнение списков регионов */
 var fill_list_regions = async data => {
-  /* заполнение  */
-
 	let result = Q.defer();
 	$('#region_all, #region_product').empty();
 	await async.eachOfSeries(data.all, async (row, ind) => {
@@ -521,28 +519,139 @@ var get_regions = params => {
 /* обработка клика по региону */
 var on_click_regions = () => {
 	$('#region_all li').on('dblclick', element => {
-    let rid = $(element.target).attr('rid');
-    let uid = get_uid_product();
-    let params = {uid: uid, rid: rid};
-    add_region_product(params)
+		let rid = $(element.target).attr('rid');
+		let uid = get_uid_product();
+		let params = { uid: uid, rid: rid };
+		add_region_product(params);
+	});
+
+	$('#region_product li').on('dblclick', element => {
+		let rid = $(element.target).attr('rid');
+		let uid = get_uid_product();
+		let params = { uid: uid, rid: rid };
+		disable_region_product(params);
+	});
+
+	$('#region_product li').on('click', async element => {
+		$('#region_product li').removeClass('active');
+		$(element.target).addClass('active');
+		let rid = $(element.target).attr('rid');
+		let uid = get_uid_product();
+		let params = { uid: uid, rid: rid };
+		let city;
+		await get_city(params).then(res => {
+			city = res;
+		});
+		await fill_city(city).then(() => {
+			on_click_city();
+		});
+	});
+};
+
+/* при клике на город */
+var on_click_city = () => {
+	$('#city_all li').on('dblclick', element => {
+		let rid = $(element.target).attr('rid');
+		let cid = $(element.target).attr('cid');
+		let uid = get_uid_product();
+		let params = { uid: uid, rid: rid, cid: cid };
+		add_city_product(params);
+	});
+
+	$('#city_product li').on('dblclick', element => {
+		let rid = $(element.target).attr('rid');
+		let cid = $(element.target).attr('cid');
+		let uid = get_uid_product();
+		let params = { uid: uid, rid: rid, cid: cid };
+		disable_city_product(params)
+	});
+};
+
+/* отключение региона у продукта */
+var disable_city_product = params => {
+	socket.emit('disable_city_product', params, res => {
+		udate_list_city_product(params);
+	});
+};
+
+/* добавление города продукта */
+var add_city_product = params => {
+	socket.emit('add_city_product', params, res => {
+		udate_list_city_product(params);
+	});
+};
+
+/* обновить список городов */
+var udate_list_city_product = async params => {
+	let city;
+	await get_city(params).then(res => {
+		city = res;
+	});
+	await fill_city(city).then(() => {
+		on_click_city();
+	});
+};
+
+/* заполнение списков городов */
+var fill_city = async data => {
+	let result = Q.defer();
+	$('#city_all, #city_product').empty();
+	await async.eachOfSeries(data.all, async (row, ind) => {
+		$('<li>', {
+			class: 'list-group-item list-group-item-action',
+			text: row.name,
+			rid: row.rid,
+			cid: row.cid,
+		}).appendTo('#city_all');
+	});
+
+	await async.eachOfSeries(data.product, async (row, ind) => {
+		$('<li>', {
+			class: 'list-group-item list-group-item-action',
+			text: row.name,
+			rid: row.rid,
+			cid: row.cid,
+		}).appendTo('#city_product');
+		if (ind == data.product.length - 1) {
+			result.resolve();
+		}
+	});
+	return result.promise;
+};
+
+/* получение городов по региону*/
+var get_city = params => {
+	let result = Q.defer();
+	socket.emit('get_city', params, res => {
+		result.resolve(res);
+	});
+	return result.promise;
+};
+
+/* отключение региона у продукта */
+var disable_region_product = params => {
+	socket.emit('disable_region_product', params, res => {
+		udate_list_region_product(params);
 	});
 };
 
 /* добавление реогиона продукту */
 var add_region_product = params => {
-  socket.emit('add_region_product', params, res => {
-    udate_list_region_product(params)
-  })
-}
+	socket.emit('add_region_product', params, res => {
+		udate_list_region_product(params);
+	});
+};
 
 /* обновить список регионов */
 var udate_list_region_product = async params => {
-  let regions;
-  await get_regions(params).then(res => {
+	let regions;
+	await get_regions(params).then(res => {
 		regions = res;
-  });
-  await fill_list_regions(regions).then(() => {})
-}
+	});
+	await fill_list_regions(regions).then(() => {
+		on_click_regions();
+	});
+};
 
 /* получение uid продукта */
 var get_uid_product = () => {
