@@ -14,7 +14,7 @@
     "mysql2": "^1.6.5",
     "node-geocoder": "^3.22.0",
     "nodejs-yandex-geocoder": "^1.0.5",
-    "nodemon": "^1.19.0",
+    "nodemon": "^1.19.4",
     "pug": "^2.0.3",
     "q": "^1.5.1",
     "socket.io": "^2.2.0",
