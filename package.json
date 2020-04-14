@@ -11,7 +11,7 @@
     "express": "^4.16.4",
     "kladrapi-for-node": "0.0.2",
     "moment": "^2.24.0",
-    "mysql2": "^1.6.5",
+    "mysql2": "^1.7.0",
     "node-geocoder": "^3.22.0",
     "nodejs-yandex-geocoder": "^1.0.5",
     "nodemon": "^1.19.0",
